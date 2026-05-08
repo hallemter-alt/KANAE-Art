@@ -2,61 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { 
-  Home, 
-  Building, 
-  TrendingUp, 
-  ClipboardList, 
-  Hotel, 
-  Wrench, 
-  Package,
-  ArrowRight
-} from "lucide-react";
-
-const businesses = [
-  {
-    icon: Home,
-    title: "不動産賃貸仲介",
-    description: "東京都内の優良物件をご紹介。駅近・新築・ペット可など、ご希望に合わせた物件探しをサポートいたします。",
-    color: "light-copper",
-  },
-  {
-    icon: Building,
-    title: "不動産売買仲介",
-    description: "マンション・戸建・土地の売買を専門スタッフが丁寧にサポート。市場分析から交渉・契約まで一貫してご対応。",
-    color: "brass-gold",
-  },
-  {
-    icon: TrendingUp,
-    title: "投資物件提案",
-    description: "利回りシミュレーション・キャップレート分析を基に、収益性の高い投資物件をご提案いたします。",
-    color: "light-copper",
-  },
-  {
-    icon: ClipboardList,
-    title: "賃貸管理",
-    description: "入居者対応・修繕管理・賃料収入管理まで、オーナー様の資産を徹底的に管理いたします。",
-    color: "celadon-blue",
-  },
-  {
-    icon: Hotel,
-    title: "民泊運営",
-    description: "旅館業法許可申請から運営代行まで。国内外のゲストをおもてなしする民泊運営をサポート。",
-    color: "brass-gold",
-  },
-  {
-    icon: Wrench,
-    title: "建物維持管理",
-    description: "定期清掃・設備点検・修繕対応。建物の価値を維持し、安心してお住まいいただける環境をご提供。",
-    color: "light-copper",
-  },
-  {
-    icon: Package,
-    title: "建材貿易",
-    description: "国内外の高品質建材を取り扱い。リノベーション・修繕に最適な素材をご提案いたします。",
-    color: "decay-wood",
-  },
-];
+import { ArrowRight } from "lucide-react";
+import { businesses, pickText } from "@/lib/content";
 
 export default function BusinessSection() {
   return (
@@ -85,25 +32,25 @@ export default function BusinessSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {businesses.map((business, index) => (
             <motion.div
-              key={business.title}
+              key={business.subtitle}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group bg-washi-white p-6 md:p-8 rounded border border-charcoal-black/8 hover:border-light-copper transition-all duration-300 hover:shadow-card-hover"
             >
-              <div className={`w-12 h-12 flex items-center justify-center mb-4 bg-${business.color}/10`}>
-                <business.icon 
-                  size={24} 
-                  className={`text-${business.color}`} 
-                  style={{ color: business.color === 'light-copper' ? '#C9A96E' : business.color === 'brass-gold' ? '#D4AF37' : business.color === 'celadon-blue' ? '#7A9E9F' : '#8B7355' }}
-                />
+              <div className="w-12 h-12 flex items-center justify-center mb-4 bg-light-copper/10">
+                <business.icon size={24} style={{ color: business.colorHex }} />
               </div>
-              <h3 className="font-serif-jp text-xl font-bold text-charcoal-black mb-3 group-hover:text-light-copper transition-colors">
-                {business.title}
+              <h3 className="font-serif-jp text-xl font-bold text-charcoal-black mb-1 group-hover:text-light-copper transition-colors">
+                {pickText(business.title)}
               </h3>
-              <p className="text-sm text-rust-iron leading-relaxed mb-4 font-sans-jp">
-                {business.description}
+              <p className="text-xs tracking-wider text-decay-wood mb-3">{business.subtitle}</p>
+              <p className="text-sm text-rust-iron leading-relaxed mb-2 font-sans-jp">
+                {pickText(business.description)}
+              </p>
+              <p className="text-xs text-rust-iron/80 leading-relaxed mb-4 font-sans-jp">
+                {pickText(business.description, "zh")}
               </p>
               <Link 
                 href="/business/"

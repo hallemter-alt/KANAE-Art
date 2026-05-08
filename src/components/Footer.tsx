@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { MapPin, Phone, Mail, Clock, ExternalLink } from "lucide-react";
+import { navItems, pickText } from "@/lib/content";
 
 export default function Footer() {
   return (
@@ -33,19 +34,15 @@ export default function Footer() {
               サイトマップ
             </h3>
             <ul className="space-y-3">
-              {[
-                { href: "/", label: "ホーム" },
-                { href: "/about/", label: "会社概要" },
-                { href: "/business/", label: "事業内容" },
-                { href: "/contact/", label: "お問い合わせ" },
-              ].map((link) => (
+              {navItems.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     className="text-sm text-concrete-grey hover:text-light-copper transition-colors duration-300 flex items-center"
+                    title={`${pickText(link.label, "en")} / ${pickText(link.label, "zh")}`}
                   >
                     <ExternalLink size={12} className="mr-2" />
-                    {link.label}
+                    {pickText(link.label)}
                   </Link>
                 </li>
               ))}
