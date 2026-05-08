@@ -3,14 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Home, Building2, Briefcase, Mail } from "lucide-react";
-
-const navItems = [
-  { href: "/", label: "ホーム", icon: Home },
-  { href: "/about/", label: "会社概要", icon: Building2 },
-  { href: "/business/", label: "事業内容", icon: Briefcase },
-  { href: "/contact/", label: "お問い合わせ", icon: Mail },
-];
+import { Menu, X } from "lucide-react";
+import { navItems, pickText, supportedLanguages } from "@/lib/content";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,18 +29,28 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="relative group font-sans-jp text-sm text-charcoal-black hover:text-light-copper transition-colors duration-300"
-              >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-light-copper group-hover:w-full transition-all duration-300" />
-              </Link>
-            ))}
-          </nav>
+          <div className="hidden md:flex items-center gap-8">
+            <nav className="flex items-center space-x-8">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="relative group font-sans-jp text-sm text-charcoal-black hover:text-light-copper transition-colors duration-300"
+                  title={`${pickText(item.label, "en")} / ${pickText(item.label, "zh")}`}
+                >
+                  {pickText(item.label)}
+                  <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-light-copper group-hover:w-full transition-all duration-300" />
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center gap-1 rounded border border-charcoal-black/10 bg-brick-white px-2 py-1 text-[11px] text-rust-iron">
+              {supportedLanguages.map((language) => (
+                <span key={language.code} className="font-sans-jp">
+                  {language.code.toUpperCase()}
+                </span>
+              ))}
+            </div>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -77,7 +81,7 @@ export default function Header() {
                   className="flex items-center space-x-3 px-4 py-3 text-charcoal-black hover:bg-concrete-grey/50 hover:text-light-copper rounded transition-colors duration-300"
                 >
                   <item.icon size={18} />
-                  <span className="font-sans-jp">{item.label}</span>
+                  <span className="font-sans-jp">{pickText(item.label)}</span>
                 </Link>
               ))}
             </div>
